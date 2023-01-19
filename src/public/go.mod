@@ -6,6 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.8.2
 	github.com/swaggo/files v1.0.0
 	github.com/swaggo/gin-swagger v1.5.3
+	github.com/swaggo/swag v1.8.9
 	gitlab.com/golibs-starter/golib v0.12.4
 	gitlab.com/golibs-starter/golib-data v0.10.0
 	gitlab.com/golibs-starter/golib-gin v0.6.1
@@ -70,7 +71,6 @@ require (
 	github.com/spf13/viper v1.14.0 // indirect
 	github.com/stretchr/testify v1.8.1 // indirect
 	github.com/subosito/gotenv v1.4.1 // indirect
-	github.com/swaggo/swag v1.8.1 // indirect
 	github.com/tidwall/gjson v1.14.4 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect

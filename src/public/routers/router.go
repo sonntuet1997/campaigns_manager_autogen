@@ -9,8 +9,9 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"gitlab.com/golibs-starter/golib"
 	golibgin "gitlab.com/golibs-starter/golib-gin"
-	"gitlab.com/technixo/backend/campaigns_manager/public/properties"
 	"gitlab.com/golibs-starter/golib/web/actuator"
+	"gitlab.com/technixo/backend/campaigns_manager/public/docs"
+	"gitlab.com/technixo/backend/campaigns_manager/public/properties"
 	"go.uber.org/fx"
 )
 
