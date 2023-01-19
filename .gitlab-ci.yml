@@ -1,0 +1,268 @@
+default:
+  image: asia-docker.pkg.dev/technixo-nonprod/toolkit/gcp-deployer:v2
+  tags:
+    - gcp-runner
+
+cache:
+  key: "$CI_PROJECT_NAMESPACE:$CI_PROJECT_NAME"
+  paths:
+    - /go/pkg/mod
+
+variables:
+  IMAGE_TAG: $CI_COMMIT_SHORT_SHA
+  GIT_SUBMODULE_STRATEGY: recursive
+  SERVICE_BASE_NAME: campaigns-manager
+  DOCKER_FILE: Dockerfile
+  BASE_NONPROD_DOCKER_IMAGE: asia-docker.pkg.dev/technixo-nonprod/services/campaigns-manager
+  BASE_PROD_DOCKER_IMAGE: europe-docker.pkg.dev/technixo-prod/services/campaigns-manager
+
+stages:
+  - verify
+  - docker build
+  - deploy to qc
+  - deploy to uat
+  - tag
+  - deploy to production
+
+.test:
+  stage: verify
+  allow_failure: false
+  image: golang:1.19-alpine
+  only:
+    changes:
+      - src/**/*
+  except:
+    refs:
+      - tags
+  before_script:
+    - apk update && apk add --no-cache git build-base
+    - export GOPRIVATE=gitlab.com
+    - git .project-config --global url."https://$GITLAB_USER:$GITLAB_ACCESS_TOKEN@gitlab.com/".insteadOf "https://gitlab.com/"
+
+automation test:
+  extends: .test
+  services:
+    - name: mysql:8.0
+      alias: mysql
+    - name: krisgeus/docker-kafka@sha256:15d4d3451ef3c106db75c65cfa3f4a667ee9a246ad7365e49cf6ff547165cfc5
+      alias: kafka
+    - name: redis:6.0-alpine
+      alias: redis
+  variables:
+    MYSQL_DATABASE: database
+    MYSQL_ROOT_PASSWORD: secret
+    APP_REDIS_HOST: redis
+    APP_DATASOURCE_HOST: mysql
+    APP_KAFKA_BOOTSTRAPSERVERS: kafka:9092
+  script:
+    - cd $CI_PROJECT_DIR && make test
+
+vet:
+  extends: .test
+  script:
+    - go install honnef.co/go/tools/cmd/staticcheck@latest
+    - cd $CI_PROJECT_DIR && make vet
+
+security:
+  extends: .test
+  script:
+    - go install github.com/securego/gosec/v2/cmd/gosec@latest
+    - cd $CI_PROJECT_DIR && make love
+
+.docker_build:
+  stage: docker build
+  only:
+    refs:
+      - develop
+      - main
+  script:
+    - export BUILD_TIME=$(date +"%s")
+    - export BUILD_COMMIT_HASH=$CI_COMMIT_SHORT_SHA
+    - envsubst < k8s/docker-build.yml > /tmp/docker-build.yml
+    - gcloud beta builds submit --.project-config=/tmp/docker-build.yml
+
+build migration:
+  extends: .docker_build
+  variables:
+    DOCKER_FILE: Dockerfile.migration
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-migration
+
+build pancake:
+  extends: .docker_build
+  variables:
+    MODULE: pancake
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-pancake
+
+build internal:
+  extends: .docker_build
+  variables:
+    MODULE: internal
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-internal
+
+build public:
+  extends: .docker_build
+  variables:
+    MODULE: public
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-public
+
+build worker:
+  extends: .docker_build
+  variables:
+    MODULE: worker
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-worker
+
+.deploy_to_qc:
+  stage: deploy to qc
+  only:
+    - develop
+  variables:
+    HOST: apex-qc.nonprodposi.com
+    ENVIRONMENT: qc
+    NAMESPACE: qc
+
+deploy migration to qc:
+  extends: .deploy_to_qc
+  variables:
+    SERVICE_NAME: $SERVICE_BASE_NAME-migration
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-migration
+  script: |
+    cd k8s/migration && bash migrate.sh
+
+deploy pancake to qc:
+  extends: .deploy_to_qc
+  variables:
+    SERVICE_NAME: $SERVICE_BASE_NAME-pancake
+    SERVICE_PATH: /campaigns-manager-pancake
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-pancake
+  script: |
+    cd k8s/pancake && bash deploy.sh
+
+deploy internal to qc:
+  extends: .deploy_to_qc
+  variables:
+    HOST: apex-qc.int.nonprodposi.com
+    SERVICE_NAME: $SERVICE_BASE_NAME-internal
+    SERVICE_PATH: /campaigns-manager-internal
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-internal
+  script: |
+    cd k8s/internal && bash deploy.sh
+
+deploy public to qc:
+  extends: .deploy_to_qc
+  variables:
+    SERVICE_NAME: $SERVICE_BASE_NAME-public
+    SERVICE_PATH: /campaigns-manager
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-public
+  script: |
+    cd k8s/public && bash deploy.sh
+
+deploy worker to qc:
+  extends: .deploy_to_qc
+  variables:
+    SERVICE_NAME: $SERVICE_BASE_NAME-worker
+    SERVICE_PATH: /campaigns-manager-worker
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-worker
+  script: |
+    cd k8s/worker && bash deploy.sh
+
+.deploy_to_uat:
+  stage: deploy to uat
+  only:
+    - main
+  variables:
+    HOST: apex-uat.position.exchange
+    ENVIRONMENT: uat
+    NAMESPACE: uat
+
+deploy migration to uat:
+  extends: .deploy_to_uat
+  variables:
+    SERVICE_NAME: $SERVICE_BASE_NAME-migration
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-migration
+  script: |
+    cd k8s/migration && bash migrate.sh
+
+deploy pancake to uat:
+  extends: .deploy_to_uat
+  variables:
+    SERVICE_NAME: $SERVICE_BASE_NAME-pancake
+    SERVICE_PATH: /campaigns-manager-pancake
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-pancake
+  script: |
+    cd k8s/pancake && bash deploy.sh
+
+deploy internal to uat:
+  extends: .deploy_to_uat
+  variables:
+    HOST: apex-uat.int.position.exchange
+    SERVICE_NAME: $SERVICE_BASE_NAME-internal
+    SERVICE_PATH: /campaigns-manager-internal
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-internal
+  script: |
+    cd k8s/internal && bash deploy.sh
+
+deploy public to uat:
+  extends: .deploy_to_uat
+  variables:
+    SERVICE_NAME: $SERVICE_BASE_NAME-public
+    SERVICE_PATH: /campaigns-manager
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-public
+  script: |
+    cd k8s/public && bash deploy.sh
+
+deploy worker to uat:
+  extends: .deploy_to_uat
+  variables:
+    SERVICE_NAME: $SERVICE_BASE_NAME-worker
+    SERVICE_PATH: /campaigns-manager-worker
+    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-worker
+  script: |
+    cd k8s/worker && bash deploy.sh
+
+.tag:
+  image: europe-docker.pkg.dev/technixo-prod/toolkit/gcp-deployer:latest
+  stage: tag
+  only:
+    - tags
+  script:
+    - gcloud container images add-tag $SOURCE_IMAGE:$IMAGE_TAG $TARGET_IMAGE:$CI_COMMIT_TAG --quiet
+
+tag migration:
+  extends: .tag
+  variables:
+    SOURCE_IMAGE: $BASE_NONPROD_DOCKER_IMAGE-migration
+    TARGET_IMAGE: $BASE_PROD_DOCKER_IMAGE-migration
+
+tag worker:
+  extends: .tag
+  variables:
+    SOURCE_IMAGE: $BASE_NONPROD_DOCKER_IMAGE-worker
+    TARGET_IMAGE: $BASE_PROD_DOCKER_IMAGE-worker
+
+tag pancake:
+  extends: .tag
+  variables:
+    SOURCE_IMAGE: $BASE_NONPROD_DOCKER_IMAGE-pancake
+    TARGET_IMAGE: $BASE_PROD_DOCKER_IMAGE-pancake
+
+tag internal:
+  extends: .tag
+  variables:
+    SOURCE_IMAGE: $BASE_NONPROD_DOCKER_IMAGE-internal
+    TARGET_IMAGE: $BASE_PROD_DOCKER_IMAGE-internal
+
+tag public:
+  extends: .tag
+  variables:
+    SOURCE_IMAGE: $BASE_NONPROD_DOCKER_IMAGE-public
+    TARGET_IMAGE: $BASE_PROD_DOCKER_IMAGE-public
+
+request to deploy to production:
+  stage: deploy to production
+  when: manual
+  only:
+    - tags
+  variables:
+    PROJECT: campaigns-manager
+  script:
+    - bash /request-production.sh $CI_COMMIT_TAG

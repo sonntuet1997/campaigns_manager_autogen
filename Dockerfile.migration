@@ -1,0 +1,16 @@
+FROM golang:1.19-alpine AS builder
+ARG GITLAB_USER
+ARG GITLAB_ACCESS_TOKEN
+ENV GOPRIVATE=gitlab.com
+RUN apk add --no-cache git
+RUN git config --global url."https://$GITLAB_USER:$GITLAB_ACCESS_TOKEN@gitlab.com/".insteadOf "https://gitlab.com/"
+COPY ./src /go/src
+WORKDIR /go/src/migration
+RUN env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ./application
+
+FROM alpine:3.15
+COPY --from=builder /go/src/migration/config /app/config
+COPY --from=builder /go/src/migration/migrations /app/migrations
+COPY --from=builder /go/src/migration/application /app
+WORKDIR /app
+ENTRYPOINT ["./application"]
