@@ -1,0 +1,9 @@
+app:
+  datasource:
+    driver: mysql
+    host: mysql-main.int.position.exchange
+    port: 3306
+    database: campaigns_manager
+    username: campaigns_manager
+    params: parseTime=true
+    migrationSource: file://migrations

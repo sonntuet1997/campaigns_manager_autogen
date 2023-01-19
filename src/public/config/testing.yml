@@ -1,0 +1,13 @@
+app:
+  port: 9999
+  logging.development: true
+  swagger.enabled: true
+  datasource:
+    driver: mysql
+    host: localhost
+    port: 3306
+    database: campaigns_manager
+    username: root
+    password: secret
+    params: parseTime=true&multiStatements=true
+    migrationSource: file://../../migration/migrations

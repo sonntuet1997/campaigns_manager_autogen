@@ -37,7 +37,7 @@ stages:
   before_script:
     - apk update && apk add --no-cache git build-base
     - export GOPRIVATE=gitlab.com
-    - git .project-config --global url."https://$GITLAB_USER:$GITLAB_ACCESS_TOKEN@gitlab.com/".insteadOf "https://gitlab.com/"
+    - git config --global url."https://$GITLAB_USER:$GITLAB_ACCESS_TOKEN@gitlab.com/".insteadOf "https://gitlab.com/"
 
 automation test:
   extends: .test
@@ -79,7 +79,7 @@ security:
     - export BUILD_TIME=$(date +"%s")
     - export BUILD_COMMIT_HASH=$CI_COMMIT_SHORT_SHA
     - envsubst < k8s/docker-build.yml > /tmp/docker-build.yml
-    - gcloud beta builds submit --.project-config=/tmp/docker-build.yml
+    - gcloud beta builds submit --config=/tmp/docker-build.yml
 
 build migration:
   extends: .docker_build
@@ -87,29 +87,11 @@ build migration:
     DOCKER_FILE: Dockerfile.migration
     IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-migration
 
-build pancake:
-  extends: .docker_build
-  variables:
-    MODULE: pancake
-    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-pancake
-
-build internal:
-  extends: .docker_build
-  variables:
-    MODULE: internal
-    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-internal
-
 build public:
   extends: .docker_build
   variables:
     MODULE: public
     IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-public
-
-build worker:
-  extends: .docker_build
-  variables:
-    MODULE: worker
-    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-worker
 
 .deploy_to_qc:
   stage: deploy to qc
@@ -128,25 +110,6 @@ deploy migration to qc:
   script: |
     cd k8s/migration && bash migrate.sh
 
-deploy pancake to qc:
-  extends: .deploy_to_qc
-  variables:
-    SERVICE_NAME: $SERVICE_BASE_NAME-pancake
-    SERVICE_PATH: /campaigns-manager-pancake
-    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-pancake
-  script: |
-    cd k8s/pancake && bash deploy.sh
-
-deploy internal to qc:
-  extends: .deploy_to_qc
-  variables:
-    HOST: apex-qc.int.nonprodposi.com
-    SERVICE_NAME: $SERVICE_BASE_NAME-internal
-    SERVICE_PATH: /campaigns-manager-internal
-    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-internal
-  script: |
-    cd k8s/internal && bash deploy.sh
-
 deploy public to qc:
   extends: .deploy_to_qc
   variables:
@@ -155,15 +118,6 @@ deploy public to qc:
     IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-public
   script: |
     cd k8s/public && bash deploy.sh
-
-deploy worker to qc:
-  extends: .deploy_to_qc
-  variables:
-    SERVICE_NAME: $SERVICE_BASE_NAME-worker
-    SERVICE_PATH: /campaigns-manager-worker
-    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-worker
-  script: |
-    cd k8s/worker && bash deploy.sh
 
 .deploy_to_uat:
   stage: deploy to uat
@@ -182,25 +136,6 @@ deploy migration to uat:
   script: |
     cd k8s/migration && bash migrate.sh
 
-deploy pancake to uat:
-  extends: .deploy_to_uat
-  variables:
-    SERVICE_NAME: $SERVICE_BASE_NAME-pancake
-    SERVICE_PATH: /campaigns-manager-pancake
-    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-pancake
-  script: |
-    cd k8s/pancake && bash deploy.sh
-
-deploy internal to uat:
-  extends: .deploy_to_uat
-  variables:
-    HOST: apex-uat.int.position.exchange
-    SERVICE_NAME: $SERVICE_BASE_NAME-internal
-    SERVICE_PATH: /campaigns-manager-internal
-    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-internal
-  script: |
-    cd k8s/internal && bash deploy.sh
-
 deploy public to uat:
   extends: .deploy_to_uat
   variables:
@@ -209,15 +144,6 @@ deploy public to uat:
     IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-public
   script: |
     cd k8s/public && bash deploy.sh
-
-deploy worker to uat:
-  extends: .deploy_to_uat
-  variables:
-    SERVICE_NAME: $SERVICE_BASE_NAME-worker
-    SERVICE_PATH: /campaigns-manager-worker
-    IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-worker
-  script: |
-    cd k8s/worker && bash deploy.sh
 
 .tag:
   image: europe-docker.pkg.dev/technixo-prod/toolkit/gcp-deployer:latest
@@ -232,24 +158,6 @@ tag migration:
   variables:
     SOURCE_IMAGE: $BASE_NONPROD_DOCKER_IMAGE-migration
     TARGET_IMAGE: $BASE_PROD_DOCKER_IMAGE-migration
-
-tag worker:
-  extends: .tag
-  variables:
-    SOURCE_IMAGE: $BASE_NONPROD_DOCKER_IMAGE-worker
-    TARGET_IMAGE: $BASE_PROD_DOCKER_IMAGE-worker
-
-tag pancake:
-  extends: .tag
-  variables:
-    SOURCE_IMAGE: $BASE_NONPROD_DOCKER_IMAGE-pancake
-    TARGET_IMAGE: $BASE_PROD_DOCKER_IMAGE-pancake
-
-tag internal:
-  extends: .tag
-  variables:
-    SOURCE_IMAGE: $BASE_NONPROD_DOCKER_IMAGE-internal
-    TARGET_IMAGE: $BASE_PROD_DOCKER_IMAGE-internal
 
 tag public:
   extends: .tag

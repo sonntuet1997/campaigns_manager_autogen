@@ -1,0 +1,9 @@
+app:
+  swagger.enabled: true
+  datasource:
+    driver: mysql
+    host: mysql-main.int.nonprodposi.com
+    port: 3306
+    database: campaigns_manager_qc
+    username: campaigns_manager_qc
+    params: parseTime=true

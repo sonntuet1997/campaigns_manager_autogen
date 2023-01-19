@@ -1,0 +1,8 @@
+app:
+  datasource:
+    driver: mysql
+    host: mysql-main.int.nonprodposi.com
+    port: 3306
+    database: campaigns_manager_uat
+    username: campaigns_manager_uat
+    params: parseTime=true
