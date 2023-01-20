@@ -1,0 +1,756 @@
+basePath: /campaigns-manager
+definitions:
+  entities.Snapshot:
+    properties:
+      campaignCode:
+        type: string
+      createdAt:
+        type: string
+      handler:
+        type: string
+      id:
+        type: integer
+      payload:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  locked_liquidity.LockedLiquiditySlotOverview:
+    properties:
+      campaign_code:
+        type: string
+      participant_number:
+        type: integer
+      total_value:
+        type: number
+    type: object
+  locked_pancake_liquidity.LockedPancakeLiquiditySlotOverview:
+    properties:
+      campaign_code:
+        type: string
+      participant_number:
+        type: integer
+      total_value:
+        type: number
+    type: object
+  resources.ClaimRequest:
+    properties:
+      verify_info:
+        items:
+          type: object
+        type: array
+    required:
+    - verify_info
+    type: object
+  resources.LockedLiquiditySlot:
+    properties:
+      campaign_code:
+        type: string
+      id:
+        type: string
+      nft_id:
+        type: integer
+      pair_manager_address:
+        type: string
+      status:
+        enum:
+        - ADDED
+        - REMOVED
+        type: string
+      timestamp:
+        type: integer
+      user_id:
+        type: string
+      value:
+        type: number
+    type: object
+  resources.LockedPancakeLiquiditySlot:
+    properties:
+      campaign_code:
+        type: string
+      id:
+        type: string
+      nft_id:
+        type: integer
+      pair_manager_address:
+        type: string
+      status:
+        enum:
+        - ADDED
+        - REMOVED
+        type: string
+      timestamp:
+        type: integer
+      user_id:
+        type: string
+      value:
+        type: number
+    type: object
+  resources.PancakeUserBalance:
+    properties:
+      liquidity:
+        type: number
+      pair_manager_address:
+        type: string
+      user_id:
+        type: string
+    type: object
+  resources.Reward:
+    properties:
+      campaign_code:
+        type: string
+      id:
+        type: integer
+      request_id:
+        type: string
+      result:
+        type: string
+      status:
+        enum:
+        - CREATED
+        - PROCESSING
+        - FAILED
+        - COMPLETED
+        type: string
+    type: object
+  resources.Snapshot:
+    properties:
+      campaign_code:
+        type: string
+      handler:
+        type: string
+      payload:
+        type: string
+    type: object
+  resources.StageInfo:
+    properties:
+      code:
+        type: string
+      details:
+        type: string
+      end_time:
+        type: integer
+      name:
+        type: string
+      stage:
+        enum:
+        - NotStarted
+        - Prepare
+        - InProgress
+        - Post
+        - Closed
+        type: string
+      start_time:
+        type: integer
+    type: object
+  response.Meta:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      data: {}
+      meta:
+        $ref: '#/definitions/response.Meta'
+    type: object
+host: apex-qc.nonprodposi.com
+info:
+  contact: {}
+  title: API
+  version: 1.0.0
+paths:
+  /v1/campaigns:
+    get:
+      consumes:
+      - application/json
+      description: Return list of campaigns detail with their current details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/resources.StageInfo'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get List Campaign Infos
+      tags:
+      - Campaign
+  /v1/campaigns/{code}:
+    get:
+      consumes:
+      - application/json
+      description: Return campaign detail with its current details
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/resources.StageInfo'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Campaign Info
+      tags:
+      - Campaign
+  /v1/campaigns/{code}/claim:
+    get:
+      consumes:
+      - application/json
+      description: Use this API to get info about your rewards
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      - description: list of request ids
+        in: query
+        name: request-ids
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/resources.Reward'
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get List Reward Info
+      tags:
+      - Claim
+    post:
+      consumes:
+      - application/json
+      description: '[General API] Use this API to claim your reward'
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/resources.ClaimRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/resources.Reward'
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Claim Reward
+      tags:
+      - Claim
+  /v1/campaigns/{code}/claim/{request_id}:
+    get:
+      consumes:
+      - application/json
+      description: Use this API to get info about your reward
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      - description: 'the unique id for each reward request, can contain info of mul
+          info, format: `a` + `|` + `b`'
+        in: path
+        name: request_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/resources.Reward'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Reward Info
+      tags:
+      - Claim
+  /v1/campaigns/{code}/configs:
+    get:
+      consumes:
+      - application/json
+      description: Return current config info
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      - description: type of config
+        enum:
+        - validators
+        - transformers
+        - executors
+        in: query
+        name: type
+        type: string
+      - description: name of the handler
+        in: query
+        name: handler-name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Config Info
+      tags:
+      - Config Info
+  /v1/campaigns/{code}/validators/{handler_name}:
+    get:
+      consumes:
+      - application/json
+      description: '[General API] Return current info about which rule you want to
+        check'
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      - description: info_handler name
+        in: path
+        name: handler_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Validator Info
+      tags:
+      - Validator Info
+  /v1/campaigns/{code}/validators/{handler_name}/{identifier}:
+    get:
+      consumes:
+      - application/json
+      description: '[General API] Return current info about a specific rule for a
+        particular user'
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      - description: info_handler name
+        in: path
+        name: handler_name
+        required: true
+        type: string
+      - description: unique id i.e. userId
+        in: path
+        name: identifier
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Validator Info By User
+      tags:
+      - Validator Info
+  /v1/campaigns/{code}/validators/locked-liquidity:
+    get:
+      consumes:
+      - application/json
+      description: Return current info about your locked liquidity
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/locked_liquidity.LockedLiquiditySlotOverview'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Locked Liquidity Info
+      tags:
+      - Validator Info
+  /v1/campaigns/{code}/validators/locked-liquidity/{identifier}:
+    get:
+      consumes:
+      - application/json
+      description: Return current info about your locked liquidity
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      - description: user_id(address)
+        in: path
+        name: identifier
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/resources.LockedLiquiditySlot'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Locked Liquidity Info By User
+      tags:
+      - Validator Info
+  /v1/campaigns/{code}/validators/locked-pancake-liquidity:
+    get:
+      consumes:
+      - application/json
+      description: Return current info about your locked liquidity
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/locked_pancake_liquidity.LockedPancakeLiquiditySlotOverview'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Locked Pancake Liquidity Info
+      tags:
+      - Validator Info
+  /v1/campaigns/{code}/validators/locked-pancake-liquidity/{identifier}:
+    get:
+      consumes:
+      - application/json
+      description: Return current info about your locked liquidity
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      - description: user_id(address)
+        in: path
+        name: identifier
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/resources.LockedPancakeLiquiditySlot'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Locked Pancake Liquidity Info By User
+      tags:
+      - Validator Info
+  /v1/campaigns/{code}/validators/snapshot:
+    get:
+      consumes:
+      - application/json
+      description: Return list of snapshot info in a particular campaign
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entities.Snapshot'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Snapshot Info
+      tags:
+      - Validator Info
+  /v1/campaigns/{code}/validators/snapshot/{identifier}:
+    get:
+      consumes:
+      - application/json
+      description: Return a particular snapshot info in a particular campaign
+      parameters:
+      - description: campaign code
+        in: path
+        name: code
+        required: true
+        type: string
+      - description: handler name
+        enum:
+        - total_locked_liquidity
+        - token_price
+        in: path
+        name: identifier
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/resources.Snapshot'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Snapshot Info By Handler Name
+      tags:
+      - Validator Info
+  /v1/campaigns/configs:
+    get:
+      consumes:
+      - application/json
+      description: Return current config info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get List Config Infos
+      tags:
+      - Config Info
+  /v1/professor/pancake-balances/{user_address}/pools/{pool_address}:
+    get:
+      consumes:
+      - application/json
+      description: Return PancakeBalance detail with its current details
+      parameters:
+      - description: user address
+        in: path
+        name: user_address
+        required: true
+        type: string
+      - description: pool address
+        in: path
+        name: pool_address
+        required: true
+        type: string
+      - description: block number
+        in: query
+        name: block-number
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/resources.PancakeUserBalance'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Get Pancake Pool Balance By User Address
+      tags:
+      - Professor
+swagger: "2.0"

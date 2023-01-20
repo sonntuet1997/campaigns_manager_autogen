@@ -1,0 +1,1218 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "API",
+        "contact": {},
+        "version": "1.0.0"
+    },
+    "host": "apex-qc.nonprodposi.com",
+    "basePath": "/campaigns-manager",
+    "paths": {
+        "/v1/campaigns": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Return list of campaigns detail with their current details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Campaign"
+                ],
+                "summary": "Get List Campaign Infos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/resources.StageInfo"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/configs": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Return current config info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Config Info"
+                ],
+                "summary": "Get List Config Infos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Return campaign detail with its current details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Campaign"
+                ],
+                "summary": "Get Campaign Info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/resources.StageInfo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}/claim": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Use this API to get info about your rewards",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Claim"
+                ],
+                "summary": "Get List Reward Info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "list of request ids",
+                        "name": "request-ids",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/resources.Reward"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "[General API] Use this API to claim your reward",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Claim"
+                ],
+                "summary": "Claim Reward",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/resources.ClaimRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/resources.Reward"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}/claim/{request_id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Use this API to get info about your reward",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Claim"
+                ],
+                "summary": "Get Reward Info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "the unique id for each reward request, can contain info of mul info, format: `a` + `|` + `b`",
+                        "name": "request_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/resources.Reward"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}/configs": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Return current config info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Config Info"
+                ],
+                "summary": "Get Config Info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "validators",
+                            "transformers",
+                            "executors"
+                        ],
+                        "type": "string",
+                        "description": "type of config",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "name of the handler",
+                        "name": "handler-name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}/validators/locked-liquidity": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Return current info about your locked liquidity",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Validator Info"
+                ],
+                "summary": "Get Locked Liquidity Info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/locked_liquidity.LockedLiquiditySlotOverview"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}/validators/locked-liquidity/{identifier}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Return current info about your locked liquidity",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Validator Info"
+                ],
+                "summary": "Get Locked Liquidity Info By User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user_id(address)",
+                        "name": "identifier",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/resources.LockedLiquiditySlot"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}/validators/locked-pancake-liquidity": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Return current info about your locked liquidity",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Validator Info"
+                ],
+                "summary": "Get Locked Pancake Liquidity Info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/locked_pancake_liquidity.LockedPancakeLiquiditySlotOverview"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}/validators/locked-pancake-liquidity/{identifier}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Return current info about your locked liquidity",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Validator Info"
+                ],
+                "summary": "Get Locked Pancake Liquidity Info By User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user_id(address)",
+                        "name": "identifier",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/resources.LockedPancakeLiquiditySlot"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}/validators/snapshot": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Return list of snapshot info in a particular campaign",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Validator Info"
+                ],
+                "summary": "Get Snapshot Info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/entities.Snapshot"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}/validators/snapshot/{identifier}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Return a particular snapshot info in a particular campaign",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Validator Info"
+                ],
+                "summary": "Get Snapshot Info By Handler Name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "total_locked_liquidity",
+                            "token_price"
+                        ],
+                        "type": "string",
+                        "description": "handler name",
+                        "name": "identifier",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/resources.Snapshot"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}/validators/{handler_name}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "[General API] Return current info about which rule you want to check",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Validator Info"
+                ],
+                "summary": "Get Validator Info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "info_handler name",
+                        "name": "handler_name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/campaigns/{code}/validators/{handler_name}/{identifier}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "[General API] Return current info about a specific rule for a particular user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Validator Info"
+                ],
+                "summary": "Get Validator Info By User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "campaign code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "info_handler name",
+                        "name": "handler_name",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "unique id i.e. userId",
+                        "name": "identifier",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/professor/pancake-balances/{user_address}/pools/{pool_address}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Return PancakeBalance detail with its current details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Professor"
+                ],
+                "summary": "Get Pancake Pool Balance By User Address",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user address",
+                        "name": "user_address",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pool address",
+                        "name": "pool_address",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "block number",
+                        "name": "block-number",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/resources.PancakeUserBalance"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entities.Snapshot": {
+            "type": "object",
+            "properties": {
+                "campaignCode": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "handler": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "payload": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "locked_liquidity.LockedLiquiditySlotOverview": {
+            "type": "object",
+            "properties": {
+                "campaign_code": {
+                    "type": "string"
+                },
+                "participant_number": {
+                    "type": "integer"
+                },
+                "total_value": {
+                    "type": "number"
+                }
+            }
+        },
+        "locked_pancake_liquidity.LockedPancakeLiquiditySlotOverview": {
+            "type": "object",
+            "properties": {
+                "campaign_code": {
+                    "type": "string"
+                },
+                "participant_number": {
+                    "type": "integer"
+                },
+                "total_value": {
+                    "type": "number"
+                }
+            }
+        },
+        "resources.ClaimRequest": {
+            "type": "object",
+            "required": [
+                "verify_info"
+            ],
+            "properties": {
+                "verify_info": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "resources.LockedLiquiditySlot": {
+            "type": "object",
+            "properties": {
+                "campaign_code": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "nft_id": {
+                    "type": "integer"
+                },
+                "pair_manager_address": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "ADDED",
+                        "REMOVED"
+                    ]
+                },
+                "timestamp": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            }
+        },
+        "resources.LockedPancakeLiquiditySlot": {
+            "type": "object",
+            "properties": {
+                "campaign_code": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "nft_id": {
+                    "type": "integer"
+                },
+                "pair_manager_address": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "ADDED",
+                        "REMOVED"
+                    ]
+                },
+                "timestamp": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            }
+        },
+        "resources.PancakeUserBalance": {
+            "type": "object",
+            "properties": {
+                "liquidity": {
+                    "type": "number"
+                },
+                "pair_manager_address": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "resources.Reward": {
+            "type": "object",
+            "properties": {
+                "campaign_code": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "request_id": {
+                    "type": "string"
+                },
+                "result": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "CREATED",
+                        "PROCESSING",
+                        "FAILED",
+                        "COMPLETED"
+                    ]
+                }
+            }
+        },
+        "resources.Snapshot": {
+            "type": "object",
+            "properties": {
+                "campaign_code": {
+                    "type": "string"
+                },
+                "handler": {
+                    "type": "string"
+                },
+                "payload": {
+                    "type": "string"
+                }
+            }
+        },
+        "resources.StageInfo": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "details": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "stage": {
+                    "type": "string",
+                    "enum": [
+                        "NotStarted",
+                        "Prepare",
+                        "InProgress",
+                        "Post",
+                        "Closed"
+                    ]
+                },
+                "start_time": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.Meta": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Response": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "meta": {
+                    "$ref": "#/definitions/response.Meta"
+                }
+            }
+        }
+    }
+}
