@@ -14,6 +14,7 @@ import (
 
 func init() {
 	err := fx.New(
+		bootstrap.AutoConfig(),
 		bootstrap.All(),
 		golib.ProvidePropsOption(golib.WithActiveProfiles([]string{"testing"})),
 		golib.ProvidePropsOption(golib.WithPaths([]string{"../config/"})),

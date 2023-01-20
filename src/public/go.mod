@@ -2,6 +2,11 @@ module gitlab.com/technixo/backend/campaigns_manager/public
 
 go 1.19
 
+replace (
+	gitlab.com/technixo/backend/campaigns_manager/adapter => ../adapter
+	gitlab.com/technixo/backend/campaigns_manager/core => ../core
+)
+
 require (
 	github.com/gin-gonic/gin v1.8.2
 	github.com/swaggo/files v1.0.0
@@ -14,6 +19,7 @@ require (
 	gitlab.com/golibs-starter/golib-migrate v0.2.0
 	gitlab.com/golibs-starter/golib-test v0.5.0
 	gitlab.com/golibs-starter/kafka-test-suite v0.2.2
+	gitlab.com/technixo/golib-emitter v0.2.0
 	go.uber.org/fx v1.19.1
 )
 
@@ -91,6 +97,8 @@ require (
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
+	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
+	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/zenthangplus/defaults v1.6.2-beta // indirect
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/dig v1.16.0 // indirect
