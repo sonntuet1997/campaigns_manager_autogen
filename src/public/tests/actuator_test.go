@@ -1,7 +1,7 @@
 package tests
 
 import (
-	"gitlab.com/golibs-starter/golib-test"
+	golibtest "gitlab.com/golibs-starter/golib-test"
 	"net/http"
 	"testing"
 )
@@ -13,7 +13,7 @@ func TestActuatorInfo_ShouldSuccess(t *testing.T) {
 		Then().
 		Status(http.StatusOK).
 		Body("meta.code", 200).
-		Body("data.service_name", "Application Name")
+		Body("data.service_name", "campaigns-manager")
 }
 
 func TestActuatorHealth_ShouldSuccess(t *testing.T) {
