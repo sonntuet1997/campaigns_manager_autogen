@@ -1,3 +1,3 @@
-module gitlab.com/technixo/backend/campaigns_manager/core
+module gitlab.com/technixo/backend/campaigns-manager/core
 
 go 1.19

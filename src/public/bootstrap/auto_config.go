@@ -6,9 +6,7 @@ import (
 	"gitlab.com/golibs-starter/golib"
 	golibdata "gitlab.com/golibs-starter/golib-data"
 	golibgin "gitlab.com/golibs-starter/golib-gin"
-	"gitlab.com/golibs-starter/golib-message-bus"
-	"gitlab.com/technixo/backend/campaigns_manager/public/routers"
-	"gitlab.com/technixo/golib-emitter"
+	"gitlab.com/technixo/backend/campaigns-manager/public/routers"
 	"go.uber.org/fx"
 )
 
@@ -29,8 +27,6 @@ func AutoConfig() fx.Option {
 
 		// Provide datasource auto config
 		golibdata.DatasourceOpt(),
-		golibemitter.EnableEmitter(),
-		golibmsg.KafkaConsumerOpt(),
 		// Provide port's implements
 
 		// Provide controllers, these controllers will be used
@@ -41,6 +37,5 @@ func AutoConfig() fx.Option {
 		// golib.OnStopEventOpt() MUST be first
 		golib.OnStopEventOpt(),
 		golibgin.OnStopHttpServerOpt(),
-		golibmsg.OnStopConsumerOpt(),
 	)
 }

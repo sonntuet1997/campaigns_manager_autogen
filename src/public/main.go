@@ -1,8 +1,7 @@
 package main
 
 import (
-	golibmsg "gitlab.com/golibs-starter/golib-message-bus"
-	"gitlab.com/technixo/backend/campaigns_manager/public/bootstrap"
+	"gitlab.com/technixo/backend/campaigns-manager/public/bootstrap"
 	"go.uber.org/fx"
 )
 
@@ -15,6 +14,5 @@ func main() {
 	fx.New(
 		bootstrap.AutoConfig(),
 		bootstrap.All(),
-		golibmsg.KafkaProducerOpt(),
 	).Run()
 }

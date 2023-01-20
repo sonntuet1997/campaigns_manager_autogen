@@ -6,20 +6,4 @@ app:
     database: campaigns_manager
     username: campaigns_manager
     params: parseTime=true
-    migrationSource: file://migrations
-  redis:
-    host: redis-main.int.position.exchange
-    port: 6379
-    database: 0
-  emitter:
-    host: redis-web-socket.int.position.exchange
-    port: 6379
-    database: 0
-  kafka:
-    bootstrapServers: kafka-main-01.int.position.exchange:9092,kafka-main-02.int.position.exchange:9092,kafka-main-03.int.position.exchange:9092
-    clientId: campaigns-manager
-    producer:
-      eventMappings:
-    consumer:
-      handlerMappings:
 

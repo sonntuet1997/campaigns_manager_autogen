@@ -1,0 +1,11 @@
+app:
+  logging:
+    JsonOutputMode: false
+
+  repo: gitlab.com/technixo/backend/campaigns-manager
+  path: ".."
+  modules:
+    public:
+      enabledFeatures:
+        swagger: .
+        mysql: .
