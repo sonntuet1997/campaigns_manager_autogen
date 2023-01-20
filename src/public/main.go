@@ -3,7 +3,6 @@ package main
 import (
 	golibmsg "gitlab.com/golibs-starter/golib-message-bus"
 	"gitlab.com/technixo/backend/campaigns_manager/public/bootstrap"
-
 	"go.uber.org/fx"
 )
 
