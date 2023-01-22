@@ -11,7 +11,7 @@ import (
 	"go.uber.org/fx"
 )
 
-func AutoConfig() fx.Option {
+func GeneratedConfig() fx.Option {
 	return fx.Options(
 		golib.AppOpt(),
 		golib.PropertiesOpt(),

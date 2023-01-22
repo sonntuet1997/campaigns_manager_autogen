@@ -12,7 +12,6 @@ import (
 // @BasePath	/campaigns-manager
 func main() {
 	fx.New(
-		bootstrap.AutoConfig(),
 		bootstrap.All(),
 	).Run()
 }

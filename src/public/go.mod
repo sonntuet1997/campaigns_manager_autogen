@@ -9,6 +9,7 @@ replace (
 
 require (
 	github.com/gin-gonic/gin v1.8.2
+	github.com/go-playground/validator/v10 v10.11.1
 	github.com/swaggo/files v1.0.0
 	github.com/swaggo/gin-swagger v1.5.3
 	github.com/swaggo/swag v1.8.9
@@ -17,6 +18,7 @@ require (
 	gitlab.com/golibs-starter/golib-gin v0.6.1
 	gitlab.com/golibs-starter/golib-migrate v0.2.0
 	gitlab.com/golibs-starter/golib-test v0.5.0
+	gitlab.com/technixo/backend/campaigns-manager/core v0.0.0-00010101000000-000000000000
 	go.uber.org/fx v1.19.1
 )
 
@@ -36,7 +38,6 @@ require (
 	github.com/go-openapi/swag v0.19.15 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/go-playground/validator/v10 v10.11.1 // indirect
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/goccy/go-json v0.9.11 // indirect

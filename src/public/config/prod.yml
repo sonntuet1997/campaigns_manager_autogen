@@ -1,4 +1,4 @@
-app:
+app: 
   datasource:
     driver: mysql
     host: mysql-main.int.position.exchange
