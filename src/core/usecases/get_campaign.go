@@ -25,3 +25,7 @@ func (c *GetCampaignUsecase) Get(ctx context.Context, code string) (*entities.Ca
 func (c *GetCampaignUsecase) GetAll(ctx context.Context, filter *entities.CampaignFilter) ([]*entities.Campaign, error) {
 	return c.Repository.GetAll(ctx, filter)
 }
+
+func (c *GetCampaignUsecase) Count(ctx context.Context, filter *entities.CampaignFilter) (int64, error) {
+	return c.Repository.Count(ctx, filter)
+}
