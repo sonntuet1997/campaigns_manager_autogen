@@ -7,6 +7,7 @@ import (
 	golibcron "gitlab.com/golibs-starter/golib-cron"
 	golibdata "gitlab.com/golibs-starter/golib-data"
 	golibgin "gitlab.com/golibs-starter/golib-gin"
+	"gitlab.com/golibs-starter/golib-message-bus"
 	"gitlab.com/technixo/backend/campaigns-manager/public/properties"
 	"gitlab.com/technixo/backend/campaigns-manager/public/routers"
 	"go.uber.org/fx"
@@ -24,12 +25,15 @@ func GeneratedConfig() fx.Option {
 		fx.Invoke(routers.RegisterHandlers),
 		fx.Invoke(routers.RegisterGinRouters),
 		golib.ProvideProps(properties.NewSwaggerProperties),
+		golibmsg.KafkaCommonOpt(),
 		golibdata.DatasourceOpt(),
+		golibmsg.KafkaConsumerOpt(),
 		golibcron.EnableCron(),
 		// Graceful shutdown.
 		// OnStop hooks will run in reverse order.
 		// golib.OnStopEventOpt() MUST be first
 		golib.OnStopEventOpt(),
 		golibgin.OnStopHttpServerOpt(),
+		golibmsg.OnStopConsumerOpt(),
 	)
 }

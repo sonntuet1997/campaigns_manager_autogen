@@ -7,24 +7,27 @@ app:
   modules:
     public:
       enabledFeatures:
-        swagger: .
-        mysql: .
-        job: .
+        swagger: true
+        mysql: true
+        job: true
+        consumer: true
       options:
+        consumers:
+          locked-slot: true
         jobs:
-          locked-slot: .
+          locked-slot: true
         controllers:
           campaign:
             path: "campaigns"
             methods:
-              getAll: .
-              get: .
-              create: .
-              update: .
+              getAll: true
+              get: true
+              create: true
+              update: true
           locked-slot:
             path: "locked-slots"
             methods:
-              getAll: .
-              get: .
-              create: .
-              update: .
+              getAll: true
+              get: true
+              create: true
+              update: true

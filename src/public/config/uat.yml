@@ -6,6 +6,15 @@ app:
     database: campaigns_manager_uat
     username: campaigns_manager_uat
     params: parseTime=true
+  kafka:
+    bootstrapServers: kafka-main-01.int.nonprodposi.com:9092,kafka-main-02.int.nonprodposi.com:9092,kafka-main-03.int.nonprodposi.com:9092
+    clientId: campaigns-manager-uat
+    consumer:
+      handlerMappings:
+        LockedSlotConsumer:
+          topic: source.locked-slot.uat
+          groupId: campaigns-manager.public.locked-slot.uat
+          enable: true
   cron:
     jobs:
       LockedSlotJob:

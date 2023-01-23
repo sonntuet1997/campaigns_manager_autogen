@@ -6,6 +6,15 @@ app:
     database: campaigns_manager
     username: campaigns_manager
     params: parseTime=true
+  kafka:
+    bootstrapServers: kafka-main-01.int.position.exchange:9092,kafka-main-02.int.position.exchange:9092,kafka-main-03.int.position.exchange:9092
+    clientId: campaigns-manager
+    consumer:
+      handlerMappings:
+        LockedSlotConsumer:
+          topic: source.locked-slot
+          groupId: campaigns-manager.public.locked-slot
+          enable: true
   cron:
     jobs:
       LockedSlotJob:

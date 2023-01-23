@@ -5,6 +5,7 @@ go 1.19
 replace gitlab.com/technixo/backend/campaigns-manager/core => ../core
 
 require (
+	gitlab.com/golibs-starter/golib v0.12.4
 	gitlab.com/golibs-starter/golib-data v0.10.0
 	gitlab.com/technixo/backend/campaigns-manager/core v0.0.0-00010101000000-000000000000
 	gorm.io/gorm v1.24.3
@@ -41,7 +42,6 @@ require (
 	github.com/spf13/viper v1.8.1 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
 	github.com/zenthangplus/defaults v1.6.2-beta // indirect
-	gitlab.com/golibs-starter/golib v0.12.2 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/dig v1.15.0 // indirect
 	go.uber.org/fx v1.18.2 // indirect
