@@ -3,15 +3,24 @@
 package bootstrap
 
 import (
+	golibcron "gitlab.com/golibs-starter/golib-cron"
 	"gitlab.com/technixo/backend/campaigns-manager/adapter/repositories/mysql"
 	"gitlab.com/technixo/backend/campaigns-manager/core/usecases"
 	"gitlab.com/technixo/backend/campaigns-manager/public/controllers"
+	"gitlab.com/technixo/backend/campaigns-manager/public/jobs"
 	"gitlab.com/technixo/backend/campaigns-manager/public/services"
 	"go.uber.org/fx"
 )
 
 func GeneratedModule() fx.Option {
 	return fx.Options(
+		fx.Provide(mysql.NewCampaignRepositoryAdapter),
+		fx.Provide(usecases.NewGetCampaignUsecase),
+		fx.Provide(usecases.NewCreateCampaignUsecase),
+		fx.Provide(usecases.NewUpdateCampaignUsecase),
+		fx.Provide(services.NewCampaignService),
+		fx.Provide(controllers.NewCampaignController),
+
 		fx.Provide(mysql.NewLockedSlotRepositoryAdapter),
 		fx.Provide(usecases.NewGetLockedSlotUsecase),
 		fx.Provide(usecases.NewCreateLockedSlotUsecase),
@@ -19,11 +28,6 @@ func GeneratedModule() fx.Option {
 		fx.Provide(services.NewLockedSlotService),
 		fx.Provide(controllers.NewLockedSlotController),
 
-		fx.Provide(mysql.NewCampaignRepositoryAdapter),
-		fx.Provide(usecases.NewGetCampaignUsecase),
-		fx.Provide(usecases.NewCreateCampaignUsecase),
-		fx.Provide(usecases.NewUpdateCampaignUsecase),
-		fx.Provide(services.NewCampaignService),
-		fx.Provide(controllers.NewCampaignController),
+		golibcron.ProvideJob(jobs.NewLockedSlotJob),
 	)
 }

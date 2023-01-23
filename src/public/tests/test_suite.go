@@ -3,6 +3,7 @@ package tests
 import (
 	"context"
 	"gitlab.com/golibs-starter/golib"
+	golibcrontestsuite "gitlab.com/golibs-starter/golib-cron/testsuite"
 	golibdataTestUtil "gitlab.com/golibs-starter/golib-data/testutil"
 	golibmigrate "gitlab.com/golibs-starter/golib-migrate"
 	golibtest "gitlab.com/golibs-starter/golib-test"
@@ -18,6 +19,7 @@ func init() {
 		golibmigrate.MigrationOpt(),
 		golibdataTestUtil.EnableDatabaseTestUtilOpt(),
 		golibtest.EnableWebTestUtil(),
+		golibcrontestsuite.EnableCronTestSuite(),
 	).Start(context.Background())
 	if err != nil {
 		panic(err)

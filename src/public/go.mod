@@ -10,11 +10,13 @@ replace (
 require (
 	github.com/gin-gonic/gin v1.8.2
 	github.com/go-playground/validator/v10 v10.11.1
+	github.com/robfig/cron/v3 v3.0.2-0.20210106135023-bc59245fe10e
 	github.com/stretchr/testify v1.8.1
 	github.com/swaggo/files v1.0.0
 	github.com/swaggo/gin-swagger v1.5.3
 	github.com/swaggo/swag v1.8.9
 	gitlab.com/golibs-starter/golib v0.12.4
+	gitlab.com/golibs-starter/golib-cron v0.5.2
 	gitlab.com/golibs-starter/golib-data v0.10.0
 	gitlab.com/golibs-starter/golib-gin v0.6.1
 	gitlab.com/golibs-starter/golib-migrate v0.2.0

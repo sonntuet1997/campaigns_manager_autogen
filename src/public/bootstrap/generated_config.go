@@ -4,6 +4,7 @@ package bootstrap
 
 import (
 	"gitlab.com/golibs-starter/golib"
+	golibcron "gitlab.com/golibs-starter/golib-cron"
 	golibdata "gitlab.com/golibs-starter/golib-data"
 	golibgin "gitlab.com/golibs-starter/golib-gin"
 	"gitlab.com/technixo/backend/campaigns-manager/public/properties"
@@ -24,6 +25,7 @@ func GeneratedConfig() fx.Option {
 		fx.Invoke(routers.RegisterGinRouters),
 		golib.ProvideProps(properties.NewSwaggerProperties),
 		golibdata.DatasourceOpt(),
+		golibcron.EnableCron(),
 		// Graceful shutdown.
 		// OnStop hooks will run in reverse order.
 		// golib.OnStopEventOpt() MUST be first

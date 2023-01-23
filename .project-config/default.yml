@@ -9,7 +9,10 @@ app:
       enabledFeatures:
         swagger: .
         mysql: .
+        job: .
       options:
+        jobs:
+          locked-slot: .
         controllers:
           campaign:
             path: "campaigns"
