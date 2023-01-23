@@ -7,4 +7,8 @@ app:
     database: campaigns_manager_qc
     username: campaigns_manager_qc
     params: parseTime=true
+  cron:
+    jobs:
+      LockedSlotJob:
+        expression: "@every 5s"
 

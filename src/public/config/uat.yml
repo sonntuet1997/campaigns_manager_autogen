@@ -6,3 +6,7 @@ app:
     database: campaigns_manager_uat
     username: campaigns_manager_uat
     params: parseTime=true
+  cron:
+    jobs:
+      LockedSlotJob:
+        expression: "@every 5s"

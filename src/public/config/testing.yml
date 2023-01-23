@@ -11,3 +11,8 @@ app:
     password: secret
     params: parseTime=true&multiStatements=true
     migrationSource: file://../../migration/migrations
+  cron:
+    jobs:
+      LockedSlotJob:
+        expression: "@every 5s"
+        disable: true
