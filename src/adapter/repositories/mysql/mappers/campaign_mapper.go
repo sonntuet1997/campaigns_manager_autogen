@@ -9,6 +9,7 @@ func ToCampaignEntity(model *models.Campaign) *entities.Campaign {
 	return &entities.Campaign{
 		ID:   model.ID,
 		Code: model.Code,
+		Name: model.Name,
 	}
 }
 
@@ -24,6 +25,7 @@ func ToCampaignModel(entity *entities.Campaign) *models.Campaign {
 	return &models.Campaign{
 		ID:   entity.ID,
 		Code: entity.Code,
+		Name: entity.Name,
 	}
 }
 

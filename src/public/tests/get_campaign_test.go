@@ -13,9 +13,11 @@ func TestGetCampaign_ShouldReturnSuccess(t *testing.T) {
 	golibdataTestUtil.Insert([]*models.Campaign{
 		{
 			Code: "CODE_1",
+			Name: "Name_1",
 		},
 		{
 			Code: "CODE_2",
+			Name: "Name_2",
 		},
 	})
 	url := `/v1/campaigns/CODE_1`
@@ -23,5 +25,6 @@ func TestGetCampaign_ShouldReturnSuccess(t *testing.T) {
 		When().
 		Get(url).Then().Status(http.StatusOK).
 		Body("meta.code", 200).
-		Body("data.code", "CODE_1")
+		Body("data.code", "CODE_1").
+		Body("data.name", "Name_1")
 }

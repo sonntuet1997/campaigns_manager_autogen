@@ -8,5 +8,6 @@ import (
 func ToCampaignEntity(resource *resources.UpsertCampaignRequest) *entities.Campaign {
 	return &entities.Campaign{
 		Code: resource.Code,
+		Name: resource.Name,
 	}
 }

@@ -9,6 +9,7 @@ func ToCampaignResource(entity *entities.Campaign) *resources.Campaign {
 	return &resources.Campaign{
 		ID:   entity.ID,
 		Code: entity.Code,
+		Name: entity.Name,
 	}
 }
 

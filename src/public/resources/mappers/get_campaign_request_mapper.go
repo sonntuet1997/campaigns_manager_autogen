@@ -8,5 +8,6 @@ import (
 func ToCampaignFilter(resource *resources.GetCampaignRequest) *entities.CampaignFilter {
 	return &entities.CampaignFilter{
 		Code: resource.Code,
+		Name: resource.Name,
 	}
 }

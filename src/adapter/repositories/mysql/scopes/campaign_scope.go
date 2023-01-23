@@ -10,6 +10,9 @@ func WithCampaignPredicates(filter *entities.CampaignFilter) func(db *gorm.DB) *
 		if filter.Code != "" {
 			db.Where("code = ?", filter.Code)
 		}
+		if filter.Name != "" {
+			db.Where("name = ?", filter.Name)
+		}
 		return db
 	}
 }
