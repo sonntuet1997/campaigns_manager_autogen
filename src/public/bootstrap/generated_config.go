@@ -29,6 +29,7 @@ func GeneratedConfig() fx.Option {
 		golibdata.DatasourceOpt(),
 		golibmsg.KafkaConsumerOpt(),
 		golibcron.EnableCron(),
+		golibdata.RedisOpt(),
 		// Graceful shutdown.
 		// OnStop hooks will run in reverse order.
 		// golib.OnStopEventOpt() MUST be first

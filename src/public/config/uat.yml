@@ -6,13 +6,17 @@ app:
     database: campaigns_manager_uat
     username: campaigns_manager_uat
     params: parseTime=true
+  redis:
+    host: redis-main-master.common.svc.cluster.local
+    port: 6379
+    database: 0
   kafka:
     bootstrapServers: kafka-main-01.int.nonprodposi.com:9092,kafka-main-02.int.nonprodposi.com:9092,kafka-main-03.int.nonprodposi.com:9092
     clientId: campaigns-manager-uat
     consumer:
       handlerMappings:
         LockedSlotConsumer:
-          topic: source.locked-slot.uat
+          topic: domain.sub.uat
           groupId: campaigns-manager.public.locked-slot.uat
           enable: true
   cron:

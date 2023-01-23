@@ -6,6 +6,7 @@ import (
 	"gitlab.com/golibs-starter/golib-message-bus/kafka/core"
 	"gitlab.com/golibs-starter/golib/web/log"
 	"gitlab.com/technixo/backend/campaigns-manager/adapter/publisher/kafka"
+	"gitlab.com/technixo/backend/campaigns-manager/core/entities"
 	"gitlab.com/technixo/backend/campaigns-manager/core/events"
 	"gitlab.com/technixo/backend/campaigns-manager/public/services"
 	"time"

@@ -11,9 +11,11 @@ app:
         mysql: true
         job: true
         consumer: true
+        redis: true
       options:
         consumers:
-          locked-slot: true
+          locked-slot:
+            topic: "domain.sub"
         jobs:
           locked-slot: true
         controllers:

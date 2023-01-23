@@ -21,6 +21,7 @@ func init() {
 		golibdataTestUtil.EnableDatabaseTestUtilOpt(),
 		golibtest.EnableWebTestUtil(),
 		golibcrontestsuite.EnableCronTestSuite(),
+		golibdataTestUtil.RedisTestUtilOpt(),
 		golibmsgTestUtil.EnableKafkaConsumerTestUtil(),
 	).Start(context.Background())
 	if err != nil {

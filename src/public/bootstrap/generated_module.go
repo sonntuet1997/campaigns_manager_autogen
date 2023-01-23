@@ -16,19 +16,19 @@ import (
 
 func GeneratedModule() fx.Option {
 	return fx.Options(
-		fx.Provide(mysql.NewLockedSlotRepositoryAdapter),
-		fx.Provide(usecases.NewGetLockedSlotUsecase),
-		fx.Provide(usecases.NewCreateLockedSlotUsecase),
-		fx.Provide(usecases.NewUpdateLockedSlotUsecase),
-		fx.Provide(services.NewLockedSlotService),
-		fx.Provide(controllers.NewLockedSlotController),
-
 		fx.Provide(mysql.NewCampaignRepositoryAdapter),
 		fx.Provide(usecases.NewGetCampaignUsecase),
 		fx.Provide(usecases.NewCreateCampaignUsecase),
 		fx.Provide(usecases.NewUpdateCampaignUsecase),
 		fx.Provide(services.NewCampaignService),
 		fx.Provide(controllers.NewCampaignController),
+
+		fx.Provide(mysql.NewLockedSlotRepositoryAdapter),
+		fx.Provide(usecases.NewGetLockedSlotUsecase),
+		fx.Provide(usecases.NewCreateLockedSlotUsecase),
+		fx.Provide(usecases.NewUpdateLockedSlotUsecase),
+		fx.Provide(services.NewLockedSlotService),
+		fx.Provide(controllers.NewLockedSlotController),
 
 		golibcron.ProvideJob(jobs.NewLockedSlotJob),
 

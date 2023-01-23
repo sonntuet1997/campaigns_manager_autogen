@@ -19,13 +19,13 @@ import (
 // RegisterRoutersIn represents constructor params for fx
 type RegisterRoutersIn struct {
 	fx.In
-	App                  *golib.App
-	Engine               *gin.Engine
-	SwaggerProps         *properties.SwaggerProperties
-	Actuator             *actuator.Endpoint
-	LockedSlotController *controllers.LockedSlotController
-
+	App                *golib.App
+	Engine             *gin.Engine
+	SwaggerProps       *properties.SwaggerProperties
+	Actuator           *actuator.Endpoint
 	CampaignController *controllers.CampaignController
+
+	LockedSlotController *controllers.LockedSlotController
 }
 
 // RegisterHandlers register handlers
@@ -45,18 +45,18 @@ func RegisterGinRouters(p RegisterRoutersIn) {
 	}
 	v1 := p.Engine.Group(fmt.Sprintf("%s/v1", p.App.Path()))
 
-	campaigns := v1.Group("campaigns")
-	{
-		campaigns.GET("", p.CampaignController.GetAllCampaign)
-		campaigns.GET(":code", p.CampaignController.GetCampaign)
-		campaigns.POST("", p.CampaignController.CreateCampaign)
-		campaigns.PUT(":code", p.CampaignController.UpdateCampaign)
-	}
 	lockedSlots := v1.Group("locked-slots")
 	{
 		lockedSlots.GET("", p.LockedSlotController.GetAllLockedSlot)
 		lockedSlots.GET(":code", p.LockedSlotController.GetLockedSlot)
 		lockedSlots.POST("", p.LockedSlotController.CreateLockedSlot)
 		lockedSlots.PUT(":code", p.LockedSlotController.UpdateLockedSlot)
+	}
+	campaigns := v1.Group("campaigns")
+	{
+		campaigns.GET("", p.CampaignController.GetAllCampaign)
+		campaigns.GET(":code", p.CampaignController.GetCampaign)
+		campaigns.POST("", p.CampaignController.CreateCampaign)
+		campaigns.PUT(":code", p.CampaignController.UpdateCampaign)
 	}
 }
