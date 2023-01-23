@@ -18,3 +18,10 @@ app:
               get: .
               create: .
               update: .
+          locked-slot:
+            path: "locked-slots"
+            methods:
+              getAll: .
+              get: .
+              create: .
+              update: .

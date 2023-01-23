@@ -19,10 +19,12 @@ import (
 // RegisterRoutersIn represents constructor params for fx
 type RegisterRoutersIn struct {
 	fx.In
-	App                *golib.App
-	Engine             *gin.Engine
-	SwaggerProps       *properties.SwaggerProperties
-	Actuator           *actuator.Endpoint
+	App                  *golib.App
+	Engine               *gin.Engine
+	SwaggerProps         *properties.SwaggerProperties
+	Actuator             *actuator.Endpoint
+	LockedSlotController *controllers.LockedSlotController
+
 	CampaignController *controllers.CampaignController
 }
 
@@ -43,6 +45,13 @@ func RegisterGinRouters(p RegisterRoutersIn) {
 	}
 	v1 := p.Engine.Group(fmt.Sprintf("%s/v1", p.App.Path()))
 
+	lockedSlots := v1.Group("locked-slots")
+	{
+		lockedSlots.GET("", p.LockedSlotController.GetAllLockedSlot)
+		lockedSlots.GET(":code", p.LockedSlotController.GetLockedSlot)
+		lockedSlots.POST("", p.LockedSlotController.CreateLockedSlot)
+		lockedSlots.PUT(":code", p.LockedSlotController.UpdateLockedSlot)
+	}
 	campaigns := v1.Group("campaigns")
 	{
 		campaigns.GET("", p.CampaignController.GetAllCampaign)

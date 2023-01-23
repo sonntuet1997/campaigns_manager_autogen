@@ -12,6 +12,13 @@ import (
 
 func GeneratedModule() fx.Option {
 	return fx.Options(
+		fx.Provide(mysql.NewLockedSlotRepositoryAdapter),
+		fx.Provide(usecases.NewGetLockedSlotUsecase),
+		fx.Provide(usecases.NewCreateLockedSlotUsecase),
+		fx.Provide(usecases.NewUpdateLockedSlotUsecase),
+		fx.Provide(services.NewLockedSlotService),
+		fx.Provide(controllers.NewLockedSlotController),
+
 		fx.Provide(mysql.NewCampaignRepositoryAdapter),
 		fx.Provide(usecases.NewGetCampaignUsecase),
 		fx.Provide(usecases.NewCreateCampaignUsecase),
