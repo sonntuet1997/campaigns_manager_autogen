@@ -6,7 +6,10 @@ import (
 )
 
 func ToCampaignResource(entity *entities.Campaign) *resources.Campaign {
-	return &resources.Campaign{}
+	return &resources.Campaign{
+		ID:   entity.ID,
+		Code: entity.Code,
+	}
 }
 
 func ToCampaignResources(arr []*entities.Campaign) []*resources.Campaign {

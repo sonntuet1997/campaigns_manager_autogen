@@ -1,5 +1,5 @@
 package resources
 
-type GetCampaignRequest struct {
+type UpsertCampaignRequest struct {
 	Code string `json:"code"`
 }

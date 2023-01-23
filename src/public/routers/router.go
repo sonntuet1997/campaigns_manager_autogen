@@ -10,6 +10,7 @@ import (
 	"gitlab.com/golibs-starter/golib"
 	golibgin "gitlab.com/golibs-starter/golib-gin"
 	"gitlab.com/golibs-starter/golib/web/actuator"
+	"gitlab.com/technixo/backend/campaigns-manager/public/controllers"
 	"gitlab.com/technixo/backend/campaigns-manager/public/docs"
 	"gitlab.com/technixo/backend/campaigns-manager/public/properties"
 	"go.uber.org/fx"
@@ -18,10 +19,11 @@ import (
 // RegisterRoutersIn represents constructor params for fx
 type RegisterRoutersIn struct {
 	fx.In
-	App          *golib.App
-	Engine       *gin.Engine
-	SwaggerProps *properties.SwaggerProperties
-	Actuator     *actuator.Endpoint
+	App                *golib.App
+	Engine             *gin.Engine
+	SwaggerProps       *properties.SwaggerProperties
+	Actuator           *actuator.Endpoint
+	CampaignController *controllers.CampaignController
 }
 
 // RegisterHandlers register handlers
@@ -40,5 +42,12 @@ func RegisterGinRouters(p RegisterRoutersIn) {
 		group.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 	v1 := p.Engine.Group(fmt.Sprintf("%s/v1", p.App.Path()))
-	_ = v1
+
+	campaigns := v1.Group("campaigns")
+	{
+		campaigns.GET("", p.CampaignController.GetAllCampaign)
+		campaigns.GET(":code", p.CampaignController.GetCampaign)
+		campaigns.POST("", p.CampaignController.CreateCampaign)
+		campaigns.PUT(":code", p.CampaignController.UpdateCampaign)
+	}
 }

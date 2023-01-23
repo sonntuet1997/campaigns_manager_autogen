@@ -18,6 +18,7 @@ require (
 	gitlab.com/golibs-starter/golib-gin v0.6.1
 	gitlab.com/golibs-starter/golib-migrate v0.2.0
 	gitlab.com/golibs-starter/golib-test v0.5.0
+	gitlab.com/technixo/backend/campaigns-manager/adapter v0.0.0-00010101000000-000000000000
 	gitlab.com/technixo/backend/campaigns-manager/core v0.0.0-00010101000000-000000000000
 	go.uber.org/fx v1.19.1
 )
@@ -97,5 +98,5 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/mysql v1.3.6 // indirect
 	gorm.io/driver/postgres v1.3.10 // indirect
-	gorm.io/gorm v1.23.9 // indirect
+	gorm.io/gorm v1.24.3 // indirect
 )

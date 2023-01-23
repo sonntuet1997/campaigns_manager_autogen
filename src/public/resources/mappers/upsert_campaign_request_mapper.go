@@ -5,8 +5,8 @@ import (
 	"gitlab.com/technixo/backend/campaigns-manager/public/resources"
 )
 
-func ToCampaignFilter(resource *resources.GetCampaignRequest) *entities.CampaignFilter {
-	return &entities.CampaignFilter{
+func ToCampaignEntity(resource *resources.UpsertCampaignRequest) *entities.Campaign {
+	return &entities.Campaign{
 		Code: resource.Code,
 	}
 }

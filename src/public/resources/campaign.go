@@ -1,3 +1,6 @@
 package resources
 
-type Campaign struct{}
+type Campaign struct {
+	ID   uint64 `json:"id"`
+	Code string `json:"code"`
+}
