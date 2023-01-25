@@ -10,9 +10,9 @@ import (
 	"gitlab.com/golibs-starter/golib"
 	golibgin "gitlab.com/golibs-starter/golib-gin"
 	"gitlab.com/golibs-starter/golib/web/actuator"
-	"gitlab.com/technixo/backend/campaigns-manager/public/controllers"
-	"gitlab.com/technixo/backend/campaigns-manager/public/docs"
-	"gitlab.com/technixo/backend/campaigns-manager/public/properties"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/controllers"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/docs"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/properties"
 	"go.uber.org/fx"
 )
 

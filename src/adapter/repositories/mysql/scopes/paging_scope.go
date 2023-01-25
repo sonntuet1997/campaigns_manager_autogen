@@ -1,7 +1,7 @@
 package scopes
 
 import (
-	"gitlab.com/technixo/backend/campaigns-manager/core/entities"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/entities"
 	"gorm.io/gorm"
 )
 

@@ -5,12 +5,12 @@ package bootstrap
 import (
 	golibcron "gitlab.com/golibs-starter/golib-cron"
 	golibmsg "gitlab.com/golibs-starter/golib-message-bus"
-	"gitlab.com/technixo/backend/campaigns-manager/adapter/repositories/mysql"
-	"gitlab.com/technixo/backend/campaigns-manager/core/usecases"
-	"gitlab.com/technixo/backend/campaigns-manager/public/consumers"
-	"gitlab.com/technixo/backend/campaigns-manager/public/controllers"
-	"gitlab.com/technixo/backend/campaigns-manager/public/jobs"
-	"gitlab.com/technixo/backend/campaigns-manager/public/services"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/adapter/repositories/mysql"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/usecases"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/consumers"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/controllers"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/jobs"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/services"
 	"go.uber.org/fx"
 )
 

@@ -2,8 +2,8 @@ package services
 
 import (
 	"context"
-	"gitlab.com/technixo/backend/campaigns-manager/core/entities"
-	"gitlab.com/technixo/backend/campaigns-manager/public/resources"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/entities"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/resources"
 )
 
 type CampaignServiceable interface {

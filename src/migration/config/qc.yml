@@ -3,7 +3,7 @@ app:
     driver: mysql
     host: mysql-main.int.nonprodposi.com
     port: 3306
-    database: campaigns_manager_qc
-    username: campaigns_manager_qc
+    database: campaigns_manager_autogen_qc
+    username: campaigns_manager_autogen_qc
     params: parseTime=true&multiStatements=true
     migrationSource: file://migrations

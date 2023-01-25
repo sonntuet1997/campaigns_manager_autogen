@@ -1,4 +1,4 @@
-# campaigns-manager
+# campaigns_manager_autogen
 
 ## public module deployment checklist
 

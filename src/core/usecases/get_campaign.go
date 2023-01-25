@@ -2,8 +2,8 @@ package usecases
 
 import (
 	"context"
-	"gitlab.com/technixo/backend/campaigns-manager/core/entities"
-	"gitlab.com/technixo/backend/campaigns-manager/core/ports"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/entities"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/ports"
 )
 
 type GetCampaignUsecase struct {

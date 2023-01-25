@@ -1,8 +1,8 @@
 package mappers
 
 import (
-	"gitlab.com/technixo/backend/campaigns-manager/core/entities"
-	"gitlab.com/technixo/backend/campaigns-manager/public/resources"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/entities"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/resources"
 )
 
 func ToCampaignEntity(resource *resources.UpsertCampaignRequest) *entities.Campaign {

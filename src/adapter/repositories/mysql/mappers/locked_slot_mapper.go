@@ -1,8 +1,8 @@
 package mappers
 
 import (
-	"gitlab.com/technixo/backend/campaigns-manager/adapter/repositories/mysql/models"
-	"gitlab.com/technixo/backend/campaigns-manager/core/entities"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/adapter/repositories/mysql/models"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/entities"
 )
 
 func ToLockedSlotEntity(model *models.LockedSlot) *entities.LockedSlot {

@@ -13,7 +13,7 @@ func TestActuatorInfo_ShouldSuccess(t *testing.T) {
 		Then().
 		Status(http.StatusOK).
 		Body("meta.code", 200).
-		Body("data.service_name", "campaigns-manager")
+		Body("data.service_name", "campaigns_manager_autogen")
 }
 
 func TestActuatorHealth_ShouldSuccess(t *testing.T) {

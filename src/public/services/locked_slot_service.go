@@ -2,10 +2,10 @@ package services
 
 import (
 	"context"
-	"gitlab.com/technixo/backend/campaigns-manager/core/entities"
-	"gitlab.com/technixo/backend/campaigns-manager/core/usecases"
-	"gitlab.com/technixo/backend/campaigns-manager/public/resources"
-	"gitlab.com/technixo/backend/campaigns-manager/public/resources/mappers"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/entities"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/usecases"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/resources"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/resources/mappers"
 )
 
 type LockedSlotService struct {

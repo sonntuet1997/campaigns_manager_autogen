@@ -4,12 +4,12 @@ import (
 	"context"
 	"errors"
 	"gitlab.com/golibs-starter/golib-data/datasource"
-	"gitlab.com/technixo/backend/campaigns-manager/adapter/repositories/mysql/mappers"
-	"gitlab.com/technixo/backend/campaigns-manager/adapter/repositories/mysql/models"
-	"gitlab.com/technixo/backend/campaigns-manager/adapter/repositories/mysql/scopes"
-	"gitlab.com/technixo/backend/campaigns-manager/core/constants"
-	"gitlab.com/technixo/backend/campaigns-manager/core/entities"
-	"gitlab.com/technixo/backend/campaigns-manager/core/ports"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/adapter/repositories/mysql/mappers"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/adapter/repositories/mysql/models"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/adapter/repositories/mysql/scopes"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/constants"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/entities"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/ports"
 	"gorm.io/gorm"
 )
 

@@ -3,7 +3,7 @@ app:
     driver: mysql
     host: mysql-main.int.position.exchange
     port: 3306
-    database: campaigns_manager
-    username: campaigns_manager
+    database: campaigns_manager_autogen
+    username: campaigns_manager_autogen
     params: parseTime=true&multiStatements=true
     migrationSource: file://migrations

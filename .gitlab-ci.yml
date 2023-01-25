@@ -11,10 +11,10 @@ cache:
 variables:
   IMAGE_TAG: $CI_COMMIT_SHORT_SHA
   GIT_SUBMODULE_STRATEGY: recursive
-  SERVICE_BASE_NAME: campaigns-manager
+  SERVICE_BASE_NAME: campaigns_manager_autogen
   DOCKER_FILE: Dockerfile
-  BASE_NONPROD_DOCKER_IMAGE: asia-docker.pkg.dev/technixo-nonprod/services/campaigns-manager
-  BASE_PROD_DOCKER_IMAGE: europe-docker.pkg.dev/technixo-prod/services/campaigns-manager
+  BASE_NONPROD_DOCKER_IMAGE: asia-docker.pkg.dev/technixo-nonprod/services/campaigns_manager_autogen
+  BASE_PROD_DOCKER_IMAGE: europe-docker.pkg.dev/technixo-prod/services/campaigns_manager_autogen
 
 stages:
   - verify
@@ -114,7 +114,7 @@ deploy public to qc:
   extends: .deploy_to_qc
   variables:
     SERVICE_NAME: $SERVICE_BASE_NAME-public
-    SERVICE_PATH: /campaigns-manager
+    SERVICE_PATH: /campaigns_manager_autogen
     IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-public
   script: |
     cd k8s/public && bash deploy.sh
@@ -140,7 +140,7 @@ deploy public to uat:
   extends: .deploy_to_uat
   variables:
     SERVICE_NAME: $SERVICE_BASE_NAME-public
-    SERVICE_PATH: /campaigns-manager
+    SERVICE_PATH: /campaigns_manager_autogen
     IMAGE_NAME: $BASE_NONPROD_DOCKER_IMAGE-public
   script: |
     cd k8s/public && bash deploy.sh
@@ -171,6 +171,6 @@ request to deploy to production:
   only:
     - tags
   variables:
-    PROJECT: campaigns-manager
+    PROJECT: campaigns_manager_autogen
   script:
     - bash /request-production.sh $CI_COMMIT_TAG

@@ -8,8 +8,8 @@ import (
 	golibdata "gitlab.com/golibs-starter/golib-data"
 	golibgin "gitlab.com/golibs-starter/golib-gin"
 	"gitlab.com/golibs-starter/golib-message-bus"
-	"gitlab.com/technixo/backend/campaigns-manager/public/properties"
-	"gitlab.com/technixo/backend/campaigns-manager/public/routers"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/properties"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/routers"
 	"go.uber.org/fx"
 )
 

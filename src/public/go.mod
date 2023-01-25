@@ -1,10 +1,10 @@
-module gitlab.com/technixo/backend/campaigns-manager/public
+module gitlab.com/technixo/backend/campaigns_manager_autogen/public
 
 go 1.19
 
 replace (
-	gitlab.com/technixo/backend/campaigns-manager/adapter => ../adapter
-	gitlab.com/technixo/backend/campaigns-manager/core => ../core
+	gitlab.com/technixo/backend/campaigns_manager_autogen/adapter => ../adapter
+	gitlab.com/technixo/backend/campaigns_manager_autogen/core => ../core
 )
 
 require (
@@ -23,8 +23,8 @@ require (
 	gitlab.com/golibs-starter/golib-message-bus v0.4.0
 	gitlab.com/golibs-starter/golib-migrate v0.2.0
 	gitlab.com/golibs-starter/golib-test v0.5.0
-	gitlab.com/technixo/backend/campaigns-manager/adapter v0.0.0-00010101000000-000000000000
-	gitlab.com/technixo/backend/campaigns-manager/core v0.0.0-00010101000000-000000000000
+	gitlab.com/technixo/backend/campaigns_manager_autogen/adapter v0.0.0-00010101000000-000000000000
+	gitlab.com/technixo/backend/campaigns_manager_autogen/core v0.0.0-00010101000000-000000000000
 	go.uber.org/fx v1.19.1
 )
 

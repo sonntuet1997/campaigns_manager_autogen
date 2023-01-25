@@ -2,7 +2,7 @@ app:
   logging:
     JsonOutputMode: false
 
-  repo: gitlab.com/technixo/backend/campaigns-manager
+  repo: gitlab.com/technixo/backend/campaigns_manager_autogen
   path: ".."
   modules:
     public:

@@ -8,7 +8,7 @@ import (
 	golibmsgTestUtil "gitlab.com/golibs-starter/golib-message-bus/testutil"
 	golibmigrate "gitlab.com/golibs-starter/golib-migrate"
 	golibtest "gitlab.com/golibs-starter/golib-test"
-	"gitlab.com/technixo/backend/campaigns-manager/public/bootstrap"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/bootstrap"
 	"go.uber.org/fx"
 )
 

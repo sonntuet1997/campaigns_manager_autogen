@@ -2,7 +2,7 @@ package ports
 
 import (
 	"context"
-	"gitlab.com/technixo/backend/campaigns-manager/core/entities"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/entities"
 )
 
 type LockedSlotRepository interface {

@@ -4,8 +4,8 @@ app:
     driver: mysql
     host: mysql-main.int.nonprodposi.com
     port: 3306
-    database: campaigns_manager_qc
-    username: campaigns_manager_qc
+    database: campaigns_manager_autogen_qc
+    username: campaigns_manager_autogen_qc
     params: parseTime=true
   redis:
     host: redis-main-master.common.svc.cluster.local
@@ -13,12 +13,12 @@ app:
     database: 0
   kafka:
     bootstrapServers: kafka-main-01.int.nonprodposi.com:9092,kafka-main-02.int.nonprodposi.com:9092,kafka-main-03.int.nonprodposi.com:9092
-    clientId: campaigns-manager-qc
+    clientId: campaigns_manager_autogen-qc
     consumer:
       handlerMappings:
         LockedSlotConsumer:
           topic: domain.sub.qc
-          groupId: campaigns-manager.public.locked-slot.qc
+          groupId: campaigns_manager_autogen.public.locked-slot.qc
           enable: true
   cron:
     jobs:

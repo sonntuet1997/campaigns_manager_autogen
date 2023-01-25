@@ -3,8 +3,8 @@ app:
     driver: mysql
     host: mysql-main.int.position.exchange
     port: 3306
-    database: campaigns_manager
-    username: campaigns_manager
+    database: campaigns_manager_autogen
+    username: campaigns_manager_autogen
     params: parseTime=true
   redis:
     host: redis-main.int.position.exchange
@@ -12,12 +12,12 @@ app:
     database: 0
   kafka:
     bootstrapServers: kafka-main-01.int.position.exchange:9092,kafka-main-02.int.position.exchange:9092,kafka-main-03.int.position.exchange:9092
-    clientId: campaigns-manager
+    clientId: campaigns_manager_autogen
     consumer:
       handlerMappings:
         LockedSlotConsumer:
           topic: domain.sub
-          groupId: campaigns-manager.public.locked-slot
+          groupId: campaigns_manager_autogen.public.locked-slot
           enable: true
   cron:
     jobs:

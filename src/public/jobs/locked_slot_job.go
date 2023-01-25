@@ -4,8 +4,8 @@ import (
 	"context"
 	"github.com/robfig/cron/v3"
 	"gitlab.com/golibs-starter/golib/log"
-	"gitlab.com/technixo/backend/campaigns-manager/core/entities"
-	"gitlab.com/technixo/backend/campaigns-manager/public/services"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/core/entities"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/services"
 	"go.uber.org/fx"
 )
 

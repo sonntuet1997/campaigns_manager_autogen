@@ -1,13 +1,13 @@
-module gitlab.com/technixo/backend/campaigns-manager/adapter
+module gitlab.com/technixo/backend/campaigns_manager_autogen/adapter
 
 go 1.19
 
-replace gitlab.com/technixo/backend/campaigns-manager/core => ../core
+replace gitlab.com/technixo/backend/campaigns_manager_autogen/core => ../core
 
 require (
 	gitlab.com/golibs-starter/golib v0.12.4
 	gitlab.com/golibs-starter/golib-data v0.10.0
-	gitlab.com/technixo/backend/campaigns-manager/core v0.0.0-00010101000000-000000000000
+	gitlab.com/technixo/backend/campaigns_manager_autogen/core v0.0.0-00010101000000-000000000000
 	gorm.io/gorm v1.24.3
 )
 

@@ -5,8 +5,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	golibdataTestUtil "gitlab.com/golibs-starter/golib-data/testutil"
 	golibtest "gitlab.com/golibs-starter/golib-test"
-	"gitlab.com/technixo/backend/campaigns-manager/adapter/repositories/mysql/models"
-	"gitlab.com/technixo/backend/campaigns-manager/public/resources"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/adapter/repositories/mysql/models"
+	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/resources"
 	"net/http"
 	"testing"
 )

@@ -1,4 +1,4 @@
-module gitlab.com/technixo/backend/campaigns-manager/migration
+module gitlab.com/technixo/backend/campaigns_manager_autogen/migration
 
 go 1.19
 
