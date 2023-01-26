@@ -12,6 +12,7 @@ app:
         job: true
         consumer: true
         redis: true
+        http-client: true
       options:
         consumers:
           locked-slot:

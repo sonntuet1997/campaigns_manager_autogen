@@ -10,6 +10,7 @@ import (
 	golibtest "gitlab.com/golibs-starter/golib-test"
 	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/bootstrap"
 	"go.uber.org/fx"
+	"net/http"
 )
 
 func init() {
@@ -21,10 +22,15 @@ func init() {
 		golibdataTestUtil.EnableDatabaseTestUtilOpt(),
 		golibtest.EnableWebTestUtil(),
 		golibcrontestsuite.EnableCronTestSuite(),
-		golibdataTestUtil.RedisTestUtilOpt(),
+		golibdataTestUtil.EnableRedisTestUtilOpt(),
 		golibmsgTestUtil.EnableKafkaConsumerTestUtil(),
+		fx.Invoke(func(client *http.Client) {
+			httpClient = client
+		}),
 	).Start(context.Background())
 	if err != nil {
 		panic(err)
 	}
 }
+
+var httpClient *http.Client

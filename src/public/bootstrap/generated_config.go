@@ -3,6 +3,7 @@
 package bootstrap
 
 import (
+	"github.com/go-resty/resty/v2"
 	"gitlab.com/golibs-starter/golib"
 	golibcron "gitlab.com/golibs-starter/golib-cron"
 	golibdata "gitlab.com/golibs-starter/golib-data"
@@ -11,6 +12,7 @@ import (
 	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/properties"
 	"gitlab.com/technixo/backend/campaigns_manager_autogen/public/routers"
 	"go.uber.org/fx"
+	"net/http"
 )
 
 func GeneratedConfig() fx.Option {
@@ -30,6 +32,10 @@ func GeneratedConfig() fx.Option {
 		golibmsg.KafkaConsumerOpt(),
 		golibcron.EnableCron(),
 		golibdata.RedisOpt(),
+		fx.Provide(func() *http.Client { return &http.Client{} }),
+		fx.Provide(func(client *http.Client) *resty.Client {
+			return resty.NewWithClient(client)
+		}),
 		// Graceful shutdown.
 		// OnStop hooks will run in reverse order.
 		// golib.OnStopEventOpt() MUST be first
