@@ -5,7 +5,7 @@ app:
   repo: gitlab.com/technixo/backend/campaigns_manager_autogen
   path: ".."
   modules:
-    public:
+    - name: "public"
       enabledFeatures:
         swagger: true
         mysql: true
@@ -15,19 +15,19 @@ app:
         http-client: true
       options:
         consumers:
-          locked-slot:
+          - name: "locked-slot"
             topic: "domain.sub"
         jobs:
-          locked-slot: true
+          - name: "locked-slot"
         controllers:
-          campaign:
+          - name: "campaign"
             path: "campaigns"
             methods:
               getAll: true
               get: true
               create: true
               update: true
-          locked-slot:
+          - name: "locked-slot"
             path: "locked-slots"
             methods:
               getAll: true
